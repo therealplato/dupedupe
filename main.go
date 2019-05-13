@@ -46,7 +46,12 @@ func perFileOrDir(path string, info os.FileInfo, err error) error {
 		problemPaths = append(problemPaths, path)
 		return nil
 	}
-	if info.IsDir() {
+
+	modeBits := info.Mode()
+	// Are any bits set for directory, link, pipe, socket, device, etc?
+	masked := modeBits & os.ModeType
+	if masked != 0 {
+		// something was set, skip
 		return nil
 	}
 
