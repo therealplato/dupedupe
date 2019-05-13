@@ -17,11 +17,15 @@ var total int
 var hasher hash.Hash
 
 func main() {
+	var root = "."
+	if len(os.Args) > 1 {
+		root = os.Args[1]
+	}
 	hashPath = make(map[string]string)
 	problemPaths = make([]string, 0)
 	hasher = sha256.New() // Save some cpu cycles by not constructing this per file
 
-	err := filepath.Walk(".", perFileOrDir)
+	err := filepath.Walk(root, perFileOrDir)
 	if err != nil {
 		// aborted early
 		log.Fatalf("stopping early due to issue: %q", err)
