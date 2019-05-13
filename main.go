@@ -80,12 +80,14 @@ func perFileOrDir(path string, info os.FileInfo, err error) error {
 func sum(path string) []byte {
 	f, err := os.Open(path)
 	if err != nil {
+		fmt.Println(err)
 		return nil
 	}
 	defer f.Close()
 
 	hasher.Reset()
 	if _, err := io.Copy(hasher, f); err != nil {
+		fmt.Println(err)
 		return nil
 	}
 
